@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: "demo.webflux.users"
+  output:
+    ansi:
+      enabled: always
+  sql:
+    init:
+      data-locations: "classpath:sql/schema.sql"
+      mode: always
+  r2dbc:
+    url: r2dbc:h2:mem:///user;
+    username: sa
+    password:
+logging:
+  level:
+    com.jpdr.apps.demo.webflux: DEBUG
+    org.springframework.r2dbc: DEBUG
