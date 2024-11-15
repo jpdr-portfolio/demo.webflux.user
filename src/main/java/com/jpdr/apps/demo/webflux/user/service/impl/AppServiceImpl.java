@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -25,11 +25,12 @@ public class AppServiceImpl implements AppService {
   private final UserRepository userRepository;
   
   @Override
-  public Flux<UserDto> getUsers() {
+  public Mono<List<UserDto>> getUsers() {
     log.debug("getUsers");
     return this.userRepository.findAllByIsActiveIsTrue()
       .doOnNext(userData -> log.debug(userData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto);
+      .map(UserMapper.INSTANCE::entityToDto)
+      .collectList();
   }
   
   @Override

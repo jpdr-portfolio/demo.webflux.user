@@ -47,7 +47,7 @@ class AppControllerTest {
     List<UserDto> expectedUsers = getUsers();
     String expectedBody = objectMapper.writeValueAsString(expectedUsers);
 
-    when(appService.getUsers()).thenReturn(Flux.fromIterable(expectedUsers));
+    when(appService.getUsers()).thenReturn(Mono.just(expectedUsers));
     
     FluxExchangeResult<String> exchangeResult = this.webTestClient.get()
       .uri("/users")

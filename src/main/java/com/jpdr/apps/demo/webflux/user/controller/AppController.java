@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,23 +23,27 @@ public class AppController {
   private final AppService appService;
   
   @GetMapping("/users")
-  public ResponseEntity<Flux<UserDto>> getUsers(){
-    return new ResponseEntity<>(appService.getUsers(), HttpStatus.OK);
+  public Mono<ResponseEntity<List<UserDto>>> getUsers(){
+    return this.appService.getUsers()
+      .map(users -> new ResponseEntity<>(users, HttpStatus.OK));
   }
   
   @GetMapping("/users/{id}")
-  public ResponseEntity<Mono<UserDto>> getUserById(@PathVariable Integer id){
-    return new ResponseEntity<>(appService.getUserById(id), HttpStatus.OK);
+  public Mono<ResponseEntity<UserDto>> getUserById(@PathVariable Integer id){
+    return this.appService.getUserById(id)
+      .map(user -> new ResponseEntity<>(user, HttpStatus.OK));
   }
   
   @PostMapping("/users")
-  public ResponseEntity<Mono<UserDto>> createUser(@RequestBody UserDto userDto){
-    return new ResponseEntity<>(appService.createUser(userDto), HttpStatus.CREATED);
+  public Mono<ResponseEntity<UserDto>> createUser(@RequestBody UserDto userDto){
+    return this.appService.createUser(userDto)
+      .map(user -> new ResponseEntity<>(user, HttpStatus.CREATED));
   }
   
   @PostMapping("/users/find-by-email")
-  public ResponseEntity<Mono<UserDto>> findUserByEmail(@RequestBody UserDto userDto){
-    return new ResponseEntity<>(appService.getUserByEmail(userDto), HttpStatus.OK);
+  public Mono<ResponseEntity<UserDto>> findUserByEmail(@RequestBody UserDto userDto){
+    return this.appService.getUserByEmail(userDto)
+      .map(user -> new ResponseEntity<>(user, HttpStatus.OK));
   }
   
   

@@ -90,9 +90,11 @@ class AppServiceTest {
       .thenReturn(Flux.fromIterable(expectedUsersData));
     
     StepVerifier.create(appService.getUsers())
-      .assertNext(dto -> assertUser(expectedUsersMap.get(dto.getId()), dto) )
-      .assertNext(dto -> assertUser(expectedUsersMap.get(dto.getId()), dto) )
-      .assertNext(dto -> assertUser(expectedUsersMap.get(dto.getId()), dto) )
+      .assertNext(users -> {
+        for(UserDto dto : users){
+          assertUser(expectedUsersMap.get(dto.getId()), dto);
+        }
+      })
       .expectComplete()
       .verify();
   }
