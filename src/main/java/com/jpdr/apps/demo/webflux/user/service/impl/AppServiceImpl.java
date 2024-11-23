@@ -1,5 +1,6 @@
 package com.jpdr.apps.demo.webflux.user.service.impl;
 
+import com.jpdr.apps.demo.webflux.eventlogger.component.EventLogger;
 import com.jpdr.apps.demo.webflux.user.exception.UserNotFoundException;
 import com.jpdr.apps.demo.webflux.user.model.UserData;
 import com.jpdr.apps.demo.webflux.user.repository.UserRepository;
@@ -23,6 +24,7 @@ import java.util.List;
 public class AppServiceImpl implements AppService {
   
   private final UserRepository userRepository;
+  private final EventLogger eventLogger;
   
   @Override
   public Mono<List<UserDto>> getUsers() {
@@ -30,7 +32,8 @@ public class AppServiceImpl implements AppService {
     return this.userRepository.findAllByIsActiveIsTrue()
       .doOnNext(userData -> log.debug(userData.toString()))
       .map(UserMapper.INSTANCE::entityToDto)
-      .collectList();
+      .collectList()
+      .doOnNext(list -> this.eventLogger.logEvent("getUsers", list));
   }
   
   @Override
@@ -39,7 +42,8 @@ public class AppServiceImpl implements AppService {
     return this.userRepository.findUserByIdAndIsActiveIsTrue(id)
       .switchIfEmpty(Mono.error(new UserNotFoundException(id)))
       .doOnNext(userData -> log.debug(userData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto);
+      .map(UserMapper.INSTANCE::entityToDto)
+      .doOnNext(user -> this.eventLogger.logEvent("getUserById", user));
   }
   
   @Override
@@ -51,7 +55,8 @@ public class AppServiceImpl implements AppService {
       .flatMap(userDto -> this.userRepository.findUserByEmailAndIsActiveIsTrue(userDto.getEmail()))
       .switchIfEmpty(Mono.error(new UserNotFoundException(dto.getEmail())))
       .doOnNext(userData -> log.debug(userData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto);
+      .map(UserMapper.INSTANCE::entityToDto)
+      .doOnNext(user -> this.eventLogger.logEvent("getUserByEmail", user));
   }
   
   @Override
@@ -67,7 +72,8 @@ public class AppServiceImpl implements AppService {
       } )
       .flatMap(this.userRepository::save)
       .doOnNext(savedUserData -> log.debug(savedUserData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto);
+      .map(UserMapper.INSTANCE::entityToDto)
+      .doOnNext(user -> this.eventLogger.logEvent("createUser", user));
   }
   
   private Mono<UserDto> validateUser(UserDto userDto){
