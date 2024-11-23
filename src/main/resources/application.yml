@@ -16,7 +16,6 @@ app:
   pod-name: ${APP_POD_NAME}
   event-logger:
     kafka:
-      enabled: ${APP_EVENT_LOGGER_KAFKA_ENABLED}
       topic: ${APP_EVENT_LOGGER_KAFKA_TOPIC}
       boostrap-server: ${APP_EVENT_LOGGER_KAFKA_BOOSTRAP_SERVER}
       compression-type: ${APP_EVENT_LOGGER_KAFKA_COMPRESSION_TYPE}

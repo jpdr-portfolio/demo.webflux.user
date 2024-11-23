@@ -16,3 +16,14 @@ logging:
   level:
     com.jpdr.apps.demo.webflux: DEBUG
     org.springframework.r2dbc: DEBUG
+app:
+  pod-name: "demo.webflux.user-0"
+  event-logger:
+    kafka:
+      topic: "topic"
+      boostrap-server: "http://localhost:9092"
+      compression-type: "none"
+      delivery-timeout-ms: 10000
+      request-timeout-ms: 10000
+      add-type-info-headers: false
+      retries: 10
