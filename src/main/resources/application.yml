@@ -8,6 +8,13 @@ spring:
     url: r2dbc:postgresql://${APP_DB_URL}/${APP_DB_NAME}
     username: ${APP_DB_USERNAME}
     password: ${APP_DB_PASSWORD}
+    pool:
+      validation-query: "SELECT 1"
+      max-size: 10
+      initial-size: 5
+      max-idle-time: 30s
+      max-validation-time: 1000
+      validation-depth: REMOTE
 logging:
   level:
     com.jpdr.apps.demo.webflux: ${APP_LOG_LEVEL}
