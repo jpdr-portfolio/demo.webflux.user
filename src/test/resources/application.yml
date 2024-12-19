@@ -12,6 +12,16 @@ spring:
     url: r2dbc:h2:mem:///user;
     username: sa
     password:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 1234
+      connect-timeout: 2000
+  cache:
+    type: REDIS
+    cache-names:
+      - users
 logging:
   level:
     com.jpdr.apps.demo.webflux: DEBUG

@@ -1,11 +1,13 @@
 package com.jpdr.apps.demo.webflux.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jpdr.apps.demo.webflux.eventlogger.component.EventLogger;
 import com.jpdr.apps.demo.webflux.user.service.AppService;
 import com.jpdr.apps.demo.webflux.user.service.dto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(MockitoExtension.class)
 class AppControllerTest {
   
@@ -39,6 +41,8 @@ class AppControllerTest {
   private AppService appService;
   @Autowired
   private ObjectMapper objectMapper;
+  @MockBean
+  private EventLogger eventLogger;
   
   @Test
   @DisplayName("OK - Get users")

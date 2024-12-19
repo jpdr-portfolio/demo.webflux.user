@@ -1,6 +1,5 @@
 package com.jpdr.apps.demo.webflux.user.service.impl;
 
-import com.jpdr.apps.demo.webflux.eventlogger.component.EventLogger;
 import com.jpdr.apps.demo.webflux.user.exception.UserNotFoundException;
 import com.jpdr.apps.demo.webflux.user.model.UserData;
 import com.jpdr.apps.demo.webflux.user.repository.UserRepository;
@@ -11,6 +10,7 @@ import com.jpdr.apps.demo.webflux.user.util.InputValidator;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -24,7 +24,6 @@ import java.util.List;
 public class AppServiceImpl implements AppService {
   
   private final UserRepository userRepository;
-  private final EventLogger eventLogger;
   
   @Override
   public Mono<List<UserDto>> getUsers() {
@@ -32,18 +31,17 @@ public class AppServiceImpl implements AppService {
     return this.userRepository.findAllByIsActiveIsTrue()
       .doOnNext(userData -> log.debug(userData.toString()))
       .map(UserMapper.INSTANCE::entityToDto)
-      .collectList()
-      .doOnNext(list -> this.eventLogger.logEvent("getUsers", list));
+      .collectList();
   }
   
   @Override
+  @Cacheable(key = "#id", value = "users", sync = true)
   public Mono<UserDto> getUserById(int id) {
     log.debug("getUserById");
     return this.userRepository.findUserByIdAndIsActiveIsTrue(id)
       .switchIfEmpty(Mono.error(new UserNotFoundException(id)))
       .doOnNext(userData -> log.debug(userData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto)
-      .doOnNext(user -> this.eventLogger.logEvent("getUserById", user));
+      .map(UserMapper.INSTANCE::entityToDto);
   }
   
   @Override
@@ -55,8 +53,7 @@ public class AppServiceImpl implements AppService {
       .flatMap(userDto -> this.userRepository.findUserByEmailAndIsActiveIsTrue(userDto.getEmail()))
       .switchIfEmpty(Mono.error(new UserNotFoundException(dto.getEmail())))
       .doOnNext(userData -> log.debug(userData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto)
-      .doOnNext(user -> this.eventLogger.logEvent("getUserByEmail", user));
+      .map(UserMapper.INSTANCE::entityToDto);
   }
   
   @Override
@@ -72,8 +69,7 @@ public class AppServiceImpl implements AppService {
       } )
       .flatMap(this.userRepository::save)
       .doOnNext(savedUserData -> log.debug(savedUserData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto)
-      .doOnNext(user -> this.eventLogger.logEvent("createUser", user));
+      .map(UserMapper.INSTANCE::entityToDto);
   }
   
   private Mono<UserDto> validateUser(UserDto userDto){

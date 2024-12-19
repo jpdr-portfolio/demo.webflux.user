@@ -15,10 +15,26 @@ spring:
       max-idle-time: 30s
       max-validation-time: 1000
       validation-depth: REMOTE
+  data:
+    redis:
+      host: ${APP_REDIS_HOST}
+      port: ${APP_REDIS_PORT}
+      username: ${APP_REDIS_USERNAME}
+      password: ${APP_REDIS_PASSWORD}
+      connect-timeout: ${APP_REDIS_CONNECT_TIMEOUT}
+  cache:
+    type: REDIS
+    cache-names:
+      - users
+management:
+  health:
+    redis:
+      enabled: false
 logging:
   level:
     com.jpdr.apps.demo.webflux: ${APP_LOG_LEVEL}
     org.springframework.r2dbc: ${APP_LOG_LEVEL}
+    io.lettuce.core.RedisClient: ${APP_LOG_LEVEL}
 app:
   pod-name: ${APP_POD_NAME}
   event-logger:

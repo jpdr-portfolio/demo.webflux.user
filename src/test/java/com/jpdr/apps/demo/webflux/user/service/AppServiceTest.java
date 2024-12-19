@@ -46,9 +46,6 @@ class AppServiceTest {
   @Mock
   private UserRepository userRepository;
   
-  @Mock
-  private EventLogger eventLogger;
-  
   @Test
   @DisplayName("OK - Create User")
   void givenUserWhenCreateUserThenReturnUser(){
