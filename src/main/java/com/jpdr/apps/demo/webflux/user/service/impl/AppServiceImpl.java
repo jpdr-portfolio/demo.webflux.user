@@ -57,6 +57,7 @@ public class AppServiceImpl implements AppService {
   }
   
   @Override
+  @Cacheable(key = "#id", value = "users", sync = true)
   @Transactional
   public Mono<UserDto> createUser(UserDto userDto) {
     log.debug("createUser");
