@@ -1,5 +1,6 @@
 package com.jpdr.apps.demo.webflux.user.exception;
 
+import com.jpdr.apps.demo.webflux.commons.exception.CacheProcessingException;
 import com.jpdr.apps.demo.webflux.user.exception.dto.ErrorDto;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler {
     log.warn(ExceptionUtils.getStackTrace(ex));
     ErrorDto errorDto = new ErrorDto(ex.getMessage());
     return new ResponseEntity<>(Mono.just(errorDto), HttpStatus.NOT_FOUND);
+  }
+  
+  @ExceptionHandler(CacheProcessingException.class)
+  ResponseEntity<Mono<ErrorDto>> handleException(CacheProcessingException ex){
+    log.error(ExceptionUtils.getStackTrace(ex));
+    ErrorDto errorDto = new ErrorDto(ex.getMessage());
+    return new ResponseEntity<>(Mono.just(errorDto), HttpStatus.INTERNAL_SERVER_ERROR);
   }
   
   @ExceptionHandler(RuntimeException.class)

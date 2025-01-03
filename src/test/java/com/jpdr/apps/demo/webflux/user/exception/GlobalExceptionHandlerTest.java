@@ -1,5 +1,6 @@
 package com.jpdr.apps.demo.webflux.user.exception;
 
+import com.jpdr.apps.demo.webflux.commons.exception.CacheProcessingException;
 import com.jpdr.apps.demo.webflux.user.exception.dto.ErrorDto;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +57,23 @@ class GlobalExceptionHandlerTest {
     ValidationException exception = new ValidationException("");
     ResponseEntity<Mono<ErrorDto>> response = globalExceptionHandler.handleException(exception);
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+  }
+  
+  @Test
+  @DisplayName("Error - CacheProcessingException")
+  void givenCacheProcessingExceptionWhenHandleExceptionThenReturnError(){
+    CacheProcessingException exception = new CacheProcessingException("Error");
+    ResponseEntity<Mono<ErrorDto>> response = globalExceptionHandler.handleException(exception);
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+  }
+  
+  
+  @Test
+  @DisplayName("Error - CacheProcessingException With Throwable")
+  void givenCacheProcessingExceptionWithThrowableWhenHandleExceptionThenReturnError(){
+    CacheProcessingException exception = new CacheProcessingException(new RuntimeException("Error"));
+    ResponseEntity<Mono<ErrorDto>> response = globalExceptionHandler.handleException(exception);
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
   
   @Test

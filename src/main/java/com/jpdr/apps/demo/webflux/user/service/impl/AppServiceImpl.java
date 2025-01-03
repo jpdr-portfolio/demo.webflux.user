@@ -1,12 +1,13 @@
 package com.jpdr.apps.demo.webflux.user.service.impl;
 
+import com.jpdr.apps.demo.webflux.commons.caching.CacheHelper;
+import com.jpdr.apps.demo.webflux.commons.validation.InputValidator;
 import com.jpdr.apps.demo.webflux.user.exception.UserNotFoundException;
 import com.jpdr.apps.demo.webflux.user.model.UserData;
 import com.jpdr.apps.demo.webflux.user.repository.UserRepository;
 import com.jpdr.apps.demo.webflux.user.service.AppService;
 import com.jpdr.apps.demo.webflux.user.service.dto.UserDto;
 import com.jpdr.apps.demo.webflux.user.service.mapper.UserMapper;
-import com.jpdr.apps.demo.webflux.user.util.InputValidator;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AppServiceImpl implements AppService {
   
   private final UserRepository userRepository;
+  private final CacheHelper cacheHelper;
   
   @Override
   public Mono<List<UserDto>> getUsers() {
@@ -57,7 +59,6 @@ public class AppServiceImpl implements AppService {
   }
   
   @Override
-  @Cacheable(key = "#id", value = "users", sync = true)
   @Transactional
   public Mono<UserDto> createUser(UserDto userDto) {
     log.debug("createUser");
@@ -70,7 +71,9 @@ public class AppServiceImpl implements AppService {
       } )
       .flatMap(this.userRepository::save)
       .doOnNext(savedUserData -> log.debug(savedUserData.toString()))
-      .map(UserMapper.INSTANCE::entityToDto);
+      .map(UserMapper.INSTANCE::entityToDto)
+      .doOnNext(savedUserData -> this.cacheHelper.put(
+        "users", savedUserData.getId() , savedUserData));
   }
   
   private Mono<UserDto> validateUser(UserDto userDto){

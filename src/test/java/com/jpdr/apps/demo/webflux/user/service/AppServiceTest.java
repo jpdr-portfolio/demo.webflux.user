@@ -1,6 +1,6 @@
 package com.jpdr.apps.demo.webflux.user.service;
 
-import com.jpdr.apps.demo.webflux.eventlogger.component.EventLogger;
+import com.jpdr.apps.demo.webflux.commons.caching.CacheHelper;
 import com.jpdr.apps.demo.webflux.user.exception.UserNotFoundException;
 import com.jpdr.apps.demo.webflux.user.model.UserData;
 import com.jpdr.apps.demo.webflux.user.repository.UserRepository;
@@ -45,6 +45,9 @@ class AppServiceTest {
   
   @Mock
   private UserRepository userRepository;
+  
+  @Mock
+  private CacheHelper cacheHelper;
   
   @Test
   @DisplayName("OK - Create User")
