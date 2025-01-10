@@ -90,7 +90,7 @@ class AppServiceTest {
     Map<Integer, UserData> expectedUsersMap = expectedUsersData.stream()
       .collect(Collectors.toMap(UserData::getId, Function.identity()));
     
-    when(userRepository.findAllByIsActiveIsTrue())
+    when(userRepository.findAllByIsActiveIsTrueOrderById())
       .thenReturn(Flux.fromIterable(expectedUsersData));
     
     StepVerifier.create(appService.getUsers())

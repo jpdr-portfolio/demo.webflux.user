@@ -30,7 +30,7 @@ public class AppServiceImpl implements AppService {
   @Override
   public Mono<List<UserDto>> getUsers() {
     log.debug("getUsers");
-    return this.userRepository.findAllByIsActiveIsTrue()
+    return this.userRepository.findAllByIsActiveIsTrueOrderById()
       .doOnNext(userData -> log.debug(userData.toString()))
       .map(UserMapper.INSTANCE::entityToDto)
       .collectList();
@@ -81,6 +81,7 @@ public class AppServiceImpl implements AppService {
       .filter(user -> user != null &&
         InputValidator.isValidName(user.getName()) &&
         InputValidator.isValidEmail(user.getEmail()) &&
+        InputValidator.isValidGender(user.getGender()) &&
         InputValidator.isValidName(user.getAddress()))
       .switchIfEmpty(Mono.error(new ValidationException("Invalid user data")));
   }

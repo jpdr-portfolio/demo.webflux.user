@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface UserRepository extends ReactiveCrudRepository<UserData, Integer> {
   
-  Flux<UserData> findAllByIsActiveIsTrue();
+  Flux<UserData> findAllByIsActiveIsTrueOrderById();
   Mono<UserData> findUserByIdAndIsActiveIsTrue(Integer id);
   Mono<UserData> findUserByEmailAndIsActiveIsTrue(String email);
   

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
@@ -58,6 +59,16 @@ class GlobalExceptionHandlerTest {
     ResponseEntity<Mono<ErrorDto>> response = globalExceptionHandler.handleException(exception);
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
+  
+  @Test
+  @DisplayName("Error - NoResourceFoundException")
+  void givenValidationExceptionWhenHandleNoResourceFoundExceptionThenReturnError(){
+    NoResourceFoundException exception = new NoResourceFoundException("/");
+    ResponseEntity<Mono<ErrorDto>> response = globalExceptionHandler.handleException(exception);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+  }
+  
+  
   
   @Test
   @DisplayName("Error - CacheProcessingException")

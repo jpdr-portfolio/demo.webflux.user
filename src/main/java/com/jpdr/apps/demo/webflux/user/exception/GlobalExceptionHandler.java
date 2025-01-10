@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
@@ -37,6 +38,13 @@ public class GlobalExceptionHandler {
     log.warn(ExceptionUtils.getStackTrace(ex));
     ErrorDto errorDto = new ErrorDto(ex.getMessage());
     return new ResponseEntity<>(Mono.just(errorDto), HttpStatus.BAD_REQUEST);
+  }
+  
+  @ExceptionHandler(NoResourceFoundException.class)
+  ResponseEntity<Mono<ErrorDto>> handleException(NoResourceFoundException ex){
+    log.warn(ExceptionUtils.getStackTrace(ex));
+    ErrorDto errorDto = new ErrorDto(ex.getMessage());
+    return new ResponseEntity<>(Mono.just(errorDto), HttpStatus.NOT_FOUND);
   }
   
   @ExceptionHandler(UserNotFoundException.class)

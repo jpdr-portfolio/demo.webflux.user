@@ -3,6 +3,7 @@ package com.jpdr.apps.demo.webflux.user.util;
 import com.jpdr.apps.demo.webflux.user.model.UserData;
 import com.jpdr.apps.demo.webflux.user.service.dto.UserDto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Stream;
@@ -12,6 +13,8 @@ public class TestDataGenerator {
   public static final String NAME = "John Smith";
   public static final String EMAIL = "johnsmith@mail.com";
   public static final String ADDRESS = "123 Street, City, State";
+  public static final String BIRTH_DATE = "1970-01-01";
+  public static final String GENDER = "Female";
   public static final String CREATION_DATE = "2024-10-14T10:39:45.732446-03:00";
   
   public static UserDto getNewUserDto(){
@@ -20,6 +23,8 @@ public class TestDataGenerator {
       .name(NAME)
       .email(EMAIL)
       .address(ADDRESS)
+      .birthDate(BIRTH_DATE)
+      .gender(GENDER)
       .creationDate(null)
       .deletionDate(null)
       .isActive(null)
@@ -43,6 +48,8 @@ public class TestDataGenerator {
       .name(NAME)
       .email(EMAIL)
       .address(ADDRESS)
+      .birthDate(BIRTH_DATE)
+      .gender(GENDER)
       .isActive(true)
       .creationDate(CREATION_DATE)
       .deletionDate(null)
@@ -66,6 +73,8 @@ public class TestDataGenerator {
       .name(NAME)
       .email(EMAIL)
       .address(ADDRESS)
+      .birthDate(LocalDate.parse(BIRTH_DATE))
+      .gender(GENDER)
       .isActive(true)
       .creationDate(OffsetDateTime.parse(CREATION_DATE))
       .deletionDate(null)

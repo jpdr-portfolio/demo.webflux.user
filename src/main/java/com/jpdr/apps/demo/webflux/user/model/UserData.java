@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Data
@@ -24,6 +26,10 @@ public class UserData {
   String email;
   @Column("address")
   String address;
+  @Column("birth_date")
+  LocalDate birthDate;
+  @Column("gender")
+  String gender;
   @Column("is_active")
   Boolean isActive;
   @Column("creation_date")

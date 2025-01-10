@@ -27,6 +27,10 @@ public class UserDto implements Serializable {
   @JsonInclude(Include.NON_NULL)
   String address;
   @JsonInclude(Include.NON_NULL)
+  String birthDate;
+  @JsonInclude(Include.NON_NULL)
+  String gender;
+  @JsonInclude(Include.NON_NULL)
   Boolean isActive;
   @JsonInclude(Include.NON_EMPTY)
   String creationDate;

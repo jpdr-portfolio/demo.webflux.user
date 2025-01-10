@@ -50,7 +50,7 @@ dependencies {
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.14.1'
 	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.14.1'
 	implementation 'com.jpdr.apps:demo.webflux.eventlogger:1.0.19'
-	implementation 'com.jpdr.apps:demo.webflux.commons:0.0.3'
+	implementation 'com.jpdr.apps:demo.webflux.commons:0.0.4'
 
 
 

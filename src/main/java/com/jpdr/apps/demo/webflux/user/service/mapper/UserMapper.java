@@ -17,6 +17,7 @@ public interface UserMapper {
   @Mapping(target = "deletionDate", expression = "java(null)")
   UserData dtoToEntity(UserDto dto);
   
+  @Mapping(target = "birthDate", expression = "java(ObjectUtils.defaultIfNull(entity.getBirthDate(),\"\").toString())" )
   @Mapping(target = "creationDate", expression = "java(ObjectUtils.defaultIfNull(entity.getCreationDate(),\"\").toString())" )
   @Mapping(target = "deletionDate", expression = "java(ObjectUtils.defaultIfNull(entity.getDeletionDate(),\"\").toString())" )
   UserDto entityToDto(UserData entity);
