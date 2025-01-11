@@ -30,6 +30,10 @@ public class UserData {
   LocalDate birthDate;
   @Column("gender")
   String gender;
+  @Column("city")
+  String city;
+  @Column("country")
+  String country;
   @Column("is_active")
   Boolean isActive;
   @Column("creation_date")

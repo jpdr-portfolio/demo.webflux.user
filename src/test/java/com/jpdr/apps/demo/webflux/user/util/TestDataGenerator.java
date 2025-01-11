@@ -15,6 +15,8 @@ public class TestDataGenerator {
   public static final String ADDRESS = "123 Street, City, State";
   public static final String BIRTH_DATE = "1970-01-01";
   public static final String GENDER = "Female";
+  public static final String CITY = "City";
+  public static final String COUNTRY = "Country";
   public static final String CREATION_DATE = "2024-10-14T10:39:45.732446-03:00";
   
   public static UserDto getNewUserDto(){
@@ -25,6 +27,8 @@ public class TestDataGenerator {
       .address(ADDRESS)
       .birthDate(BIRTH_DATE)
       .gender(GENDER)
+      .city(CITY)
+      .country(COUNTRY)
       .creationDate(null)
       .deletionDate(null)
       .isActive(null)
@@ -50,6 +54,8 @@ public class TestDataGenerator {
       .address(ADDRESS)
       .birthDate(BIRTH_DATE)
       .gender(GENDER)
+      .city(CITY)
+      .country(COUNTRY)
       .isActive(true)
       .creationDate(CREATION_DATE)
       .deletionDate(null)
@@ -75,6 +81,8 @@ public class TestDataGenerator {
       .address(ADDRESS)
       .birthDate(LocalDate.parse(BIRTH_DATE))
       .gender(GENDER)
+      .city(CITY)
+      .country(COUNTRY)
       .isActive(true)
       .creationDate(OffsetDateTime.parse(CREATION_DATE))
       .deletionDate(null)
