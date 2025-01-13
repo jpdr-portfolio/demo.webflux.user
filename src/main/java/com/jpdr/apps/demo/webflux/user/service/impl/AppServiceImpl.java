@@ -38,7 +38,7 @@ public class AppServiceImpl implements AppService {
   
   @Override
   @Cacheable(key = "#id", value = "users", sync = true)
-  public Mono<UserDto> getUserById(int id) {
+  public Mono<UserDto> getUserById(long id) {
     log.debug("getUserById");
     return this.userRepository.findUserByIdAndIsActiveIsTrue(id)
       .switchIfEmpty(Mono.error(new UserNotFoundException(id)))

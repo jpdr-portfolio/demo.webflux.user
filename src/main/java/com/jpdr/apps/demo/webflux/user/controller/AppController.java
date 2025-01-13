@@ -32,7 +32,7 @@ public class AppController {
   }
   
   @GetMapping("/users/{id}")
-  public Mono<ResponseEntity<UserDto>> getUserById(@PathVariable Integer id){
+  public Mono<ResponseEntity<UserDto>> getUserById(@PathVariable Long id){
     return this.appService.getUserById(id)
       .doOnNext(user -> this.eventLogger.logEvent("getUserById", user))
       .map(user -> new ResponseEntity<>(user, HttpStatus.OK));

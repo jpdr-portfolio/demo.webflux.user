@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -59,7 +59,7 @@ class AppServiceTest {
     when(userRepository.save(any(UserData.class)))
       .thenAnswer(i -> {
         UserData userData = i.getArgument(0);
-        userData.setId(1);
+        userData.setId(1L);
         return Mono.just(userData);
       });
     
@@ -87,7 +87,7 @@ class AppServiceTest {
     
     List<UserData> expectedUsersData = getUsersData();
     
-    Map<Integer, UserData> expectedUsersMap = expectedUsersData.stream()
+    Map<Long, UserData> expectedUsersMap = expectedUsersData.stream()
       .collect(Collectors.toMap(UserData::getId, Function.identity()));
     
     when(userRepository.findAllByIsActiveIsTrueOrderById())
@@ -109,7 +109,7 @@ class AppServiceTest {
     
     UserData expectedUserData = getUserData();
     
-    when(userRepository.findUserByIdAndIsActiveIsTrue(anyInt()))
+    when(userRepository.findUserByIdAndIsActiveIsTrue(anyLong()))
       .thenReturn(Mono.just(expectedUserData));
     
     StepVerifier.create(appService.getUserById(1))
@@ -122,7 +122,7 @@ class AppServiceTest {
   @DisplayName("Error - Find user by Id")
   void givenIdWhenFindUserByIdThenReturnNotFound(){
     
-    when(userRepository.findUserByIdAndIsActiveIsTrue(anyInt()))
+    when(userRepository.findUserByIdAndIsActiveIsTrue(anyLong()))
       .thenReturn(Mono.empty());
     
     StepVerifier.create(appService.getUserById(1))

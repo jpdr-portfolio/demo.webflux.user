@@ -2,7 +2,7 @@ package com.jpdr.apps.demo.webflux.user.exception;
 
 public class UserNotFoundException extends RuntimeException{
   
-  public UserNotFoundException(int id){
+  public UserNotFoundException(long id){
     super("User "+ id +" not found");
   }
   

@@ -46,7 +46,7 @@ public class TestDataGenerator {
       .toList();
   }
   
-  public static UserDto getUserDto(int id){
+  public static UserDto getUserDto(long id){
     return UserDto.builder()
       .id(id)
       .name(NAME)
@@ -73,7 +73,7 @@ public class TestDataGenerator {
     return  getUserData(1);
   }
   
-  public static UserData getUserData(int id){
+  public static UserData getUserData(long id){
     return UserData.builder()
       .id(id)
       .name(NAME)

@@ -7,7 +7,6 @@ import com.jpdr.apps.demo.webflux.user.service.dto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -28,7 +26,7 @@ import static com.jpdr.apps.demo.webflux.user.util.TestDataGenerator.getUserDto;
 import static com.jpdr.apps.demo.webflux.user.util.TestDataGenerator.getUsers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -73,7 +71,7 @@ class AppControllerTest {
   void givenIdWhenFindUserByIdThenReturnUser(){
     
     UserDto expectedUser = getUserDto();
-    when(appService.getUserById(anyInt())).thenReturn(Mono.just(expectedUser));
+    when(appService.getUserById(anyLong())).thenReturn(Mono.just(expectedUser));
     
     FluxExchangeResult<UserDto> exchangeResult = this.webTestClient.get()
       .uri("/users/" + expectedUser.getId())

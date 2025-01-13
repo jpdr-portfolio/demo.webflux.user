@@ -19,17 +19,17 @@ public class UserData {
   
   @Id
   @Column("id")
-  Integer id;
+  Long id;
   @Column("name")
   String name;
-  @Column("email")
-  String email;
-  @Column("address")
-  String address;
   @Column("birth_date")
   LocalDate birthDate;
   @Column("gender")
   String gender;
+  @Column("email")
+  String email;
+  @Column("address")
+  String address;
   @Column("city")
   String city;
   @Column("country")

@@ -8,7 +8,7 @@ import java.util.List;
 public interface AppService {
   
   Mono<List<UserDto>> getUsers();
-  Mono<UserDto> getUserById(int id);
+  Mono<UserDto> getUserById(long id);
   Mono<UserDto> getUserByEmail(UserDto dto);
   Mono<UserDto> createUser(UserDto dto);
   
